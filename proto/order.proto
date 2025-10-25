@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "order-service/proto";
+
+// Order service definition
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (OrderWithDetailsResponse);
+  rpc GetOrder(GetOrderRequest) returns (OrderWithDetailsResponse);
+  rpc GetAllOrders(GetAllOrdersRequest) returns (GetAllOrdersResponse);
+}
+
+// Request/Response messages
+message CreateOrderRequest {
+  uint32 user_id = 1;
+  uint32 product_id = 2;
+}
+
+message GetOrderRequest {
+  uint32 id = 1;
+}
+
+message GetAllOrdersRequest {
+  // Empty message for getting all orders
+}
+
+message OrderResponse {
+  uint32 id = 1;
+  uint32 user_id = 2;
+  uint32 product_id = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message OrderWithDetailsResponse {
+  uint32 id = 1;
+  uint32 user_id = 2;
+  uint32 product_id = 3;
+  UserResponse user = 4;
+  ProductResponse product = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message GetAllOrdersResponse {
+  repeated OrderResponse orders = 1;
+}
+
+// Imported types for order details
+message UserResponse {
+  uint32 id = 1;
+  string name = 2;
+  string email = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message ProductResponse {
+  uint32 id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
